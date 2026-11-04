@@ -56,11 +56,11 @@ data = df["UF"].value_counts().to_dict()
 @st.cache_data
 def build_map(data, palette_name):
     """Build the whole map figure once; toggling widgets won't rebuild it."""
-    geojson = funcoes.load_geojson(geojson_path, url)
+    geojson = functions.load_geojson(geojson_path, url)
 
     rows = []
     for feat in geojson["features"]:
-        lon, lat = funcoes.state_centroid(feat["geometry"])
+        lon, lat = functions.state_centroid(feat["geometry"])
         rows.append({"state": feat["properties"]["sigla"], "lon": lon, "lat": lat})
     dfmap = pd.DataFrame(rows)
     dfmap["value"] = dfmap["state"].map(data).fillna(0).astype(int)
